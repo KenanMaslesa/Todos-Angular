@@ -1,0 +1,24 @@
+<div class="todo__filters">
+  <span>{{ todoService.numberOfLeftTodos$ | async }} items left</span>
+  <ul *ngIf="todoService.activeFilter$ | async as activeFilter">
+    <li
+      [class.active]="activeFilter === todoFilter.ALL"
+      (click)="filterTodos(todoFilter.ALL)"
+    >
+      All
+    </li>
+    <li
+      [class.active]="activeFilter === todoFilter.ACTIVE"
+      (click)="filterTodos(todoFilter.ACTIVE)"
+    >
+      Active
+    </li>
+    <li
+      [class.active]="activeFilter === todoFilter.COMPLETED"
+      (click)="filterTodos(todoFilter.COMPLETED)"
+    >
+      Completed
+    </li>
+  </ul>
+  <button (click)="clearCompletedTodos()">Clear completed</button>
+</div>

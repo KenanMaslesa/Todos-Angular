@@ -1,0 +1,8 @@
+<form [formGroup]="form" (keyup.enter)="submitForm()">
+  <input
+    class="todo__new"
+    type="text"
+    placeholder="What needs to be done?"
+    formControlName="todoItemText"
+  />
+</form>
