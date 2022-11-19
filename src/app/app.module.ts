@@ -1,7 +1,7 @@
-import { TodoModule } from './todo/todo.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { TodoModule } from './todo/todo.module';
 import { AppComponent } from './app.component';
 
 @NgModule({

@@ -1,0 +1,9 @@
+<li class="todo__item">
+  <input
+    type="checkbox"
+    [checked]="todoItem.isCompleted"
+    (change)="updateTodo(todoItem.id)"
+  />
+  <label>{{ todoItem.title }}</label>
+  <button (click)="deleteTodo(todoItem.id)">x</button>
+</li>

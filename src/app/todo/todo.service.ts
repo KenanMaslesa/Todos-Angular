@@ -8,12 +8,14 @@ import { Todo, TodoFilter } from './models';
 export class TodoService {
   constructor() {}
 
-  public activeFilter$: BehaviorSubject<TodoFilter> = new BehaviorSubject<TodoFilter>(TodoFilter.ALL);
+  public activeFilter$: BehaviorSubject<TodoFilter> =
+    new BehaviorSubject<TodoFilter>(TodoFilter.ALL);
 
   public todoList$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([
     { id: '1', title: 'Learn Angular', isCompleted: false },
-    { id: '2', title: 'Learn React', isCompleted: false },
-    { id: '3', title: 'Learn NgRx', isCompleted: false },
+    { id: '2', title: 'Learn NgRx', isCompleted: false },
+    { id: '3', title: 'Learn NgXs', isCompleted: false },
+    { id: '4', title: 'Learn React', isCompleted: false },
   ]);
 
   public numberOfLeftTodos$: Observable<number> = this.todoList$.pipe(
@@ -23,8 +25,9 @@ export class TodoService {
     })
   );
 
-  public allTodos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([...this.todoList$.value]);
-
+  public allTodos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([
+    ...this.todoList$.value,
+  ]);
 
   public deleteTodo(TodoId: string): void {
     const newTodos = [...this.todoList$.value];
@@ -32,10 +35,10 @@ export class TodoService {
     this.allTodos$.next(this.todoList$.value);
   }
 
-  public updateTodo(TodoId: string): void {
+  public updateTodo(todoId: string): void {
     const newTodos = [...this.todoList$.value];
     newTodos.map((item) => {
-      if (item.id === TodoId) {
+      if (item.id === todoId) {
         item.isCompleted = !item.isCompleted;
       }
     });
@@ -43,15 +46,14 @@ export class TodoService {
     this.allTodos$.next(newTodos);
   }
 
-  public addTodo(TodoText: string): void {
+  public addTodo(todoText: string): void {
     const newTodo: Todo = {
       id: Date.now().toString(),
-      title: TodoText,
+      title: todoText,
       isCompleted: false,
     };
     this.todoList$.next([...this.todoList$.value, newTodo]);
     this.allTodos$.next([...this.allTodos$.value, newTodo]);
-    // this.filterTodos(this.activeFilter$.value);
     this.filterTodos(TodoFilter.ALL);
     this.activeFilter$.next(TodoFilter.ALL);
   }
@@ -61,15 +63,17 @@ export class TodoService {
     const uncompletedTodos = newTodos.filter((todo) => !todo.isCompleted);
     this.todoList$.next(uncompletedTodos);
     this.allTodos$.next(uncompletedTodos);
+    this.activeFilter$.next(TodoFilter.ALL);
   }
 
   public filterTodos(filter: TodoFilter): void {
+    const allTodos = [...this.allTodos$.value];
     if (filter === TodoFilter.ACTIVE) {
-      this.todoList$.next(this.allTodos$.value.filter((item) => !item.isCompleted));
+      this.todoList$.next(allTodos.filter((item) => !item.isCompleted));
     } else if (filter === TodoFilter.COMPLETED) {
-      this.todoList$.next(this.allTodos$.value.filter((item) => item.isCompleted));
+      this.todoList$.next(allTodos.filter((item) => item.isCompleted));
     } else if (filter === TodoFilter.ALL) {
-      return this.todoList$.next(this.allTodos$.value);
+      return this.todoList$.next(allTodos);
     }
   }
 }

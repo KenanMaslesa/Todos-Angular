@@ -1,0 +1,8 @@
+<ul class="todo__list">
+  <app-todo-item
+    *ngFor="let todoItem of todolist$ | async; trackBy: myTrackByFn"
+    [todoItem]="todoItem"
+    (updateItem)="updateTodo($event)"
+    (removeItem)="deleteTodo($event)"
+  ></app-todo-item>
+</ul>

@@ -8,7 +8,6 @@ import { TodoFilter } from '../models';
 })
 export class TodoFiltersComponent implements OnInit {
   public readonly todoFilter = TodoFilter;
-  public activeFilter: TodoFilter = TodoFilter.ALL;
 
   constructor(public todoService: TodoService) {}
 
@@ -19,7 +18,7 @@ export class TodoFiltersComponent implements OnInit {
   }
 
   public filterTodos(filter: TodoFilter): void {
-    this.activeFilter = filter;
+    this.todoService.activeFilter$.next(filter);
     this.todoService.filterTodos(filter);
   }
 }
