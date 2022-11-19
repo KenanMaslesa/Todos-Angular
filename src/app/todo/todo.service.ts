@@ -29,10 +29,10 @@ export class TodoService {
     ...this.todoList$.value,
   ]);
 
-  public deleteTodo(TodoId: string): void {
+  public deleteTodo(todoId: string): void {
     const newTodos = [...this.todoList$.value];
-    this.todoList$.next(newTodos.filter((item) => item.id !== TodoId));
-    this.allTodos$.next(this.todoList$.value);
+    this.todoList$.next(newTodos.filter((item) => item.id !== todoId));
+    this.allTodos$.next(this.allTodos$.value.filter((item) => item.id !== todoId));
   }
 
   public updateTodo(todoId: string): void {
